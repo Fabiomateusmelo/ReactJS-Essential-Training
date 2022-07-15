@@ -1,6 +1,13 @@
 import './App.css';
 
-const cities = 
+const [firstCity, second] = [
+  "Tokyo",
+  "Tahoe City",
+  "Bend"
+];
+
+console.log(firstCity);
+console.log(second);
 
 function App({ library }) {
   return (
