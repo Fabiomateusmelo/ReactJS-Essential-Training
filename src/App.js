@@ -21,12 +21,12 @@ function App() {
       <button onClick={() => setEmotion('excited')}>Excited</button>
       <h2>A emoção secundária é {secondary}.</h2>
       <button onClick={() => setSecondary('grateful')}>Grateful</button>
+
       <br></br>
       <br></br>
-      <br></br>
-      
+
       <input type="checkbox" value={checked} onChange={setChecked} />
-      <label>{checked ? 'checked' : ' not checked'}</label>
+      <label>{checked ? 'Verificado' : ' Não verificado'}</label>
     </div>
   )
 }
