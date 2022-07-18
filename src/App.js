@@ -1,5 +1,5 @@
 import './App.css'
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, useRef } from 'react'
 
 function App() {
   const [emotion, setEmotion] = useState('happy')
@@ -14,6 +14,18 @@ function App() {
 
   const [checked, setChecked] = useReducer(checked => !checked, false)
 
+  const txtTitle = useRef();
+  const hexColor = useRef();
+
+  const submit = (e) => {
+    e.preventDefault();
+    const title = txtTitle.current.value;
+    const color = hexColor.current.value
+    alert(`${title}, ${color}`);
+    txtTitle.current.value = "";
+    hexColor.current.value = "";
+  };
+
   return (
     <div className="App">
       <h1>A emoção primária é {emotion}</h1>
@@ -27,6 +39,15 @@ function App() {
 
       <input type="checkbox" value={checked} onChange={setChecked} />
       <label>{checked ? 'Verificado' : ' Não verificado'}</label>
+
+      <br></br>
+      <br></br>
+
+      <form onSubmit={submit}>
+        <input ref={txtTitle} type="text" placeholder='color title...' />
+        <input ref={hexColor} type="color" />
+        <button>ADD</button>
+      </form>
     </div>
   )
 }
