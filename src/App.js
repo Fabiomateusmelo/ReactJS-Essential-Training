@@ -1,5 +1,13 @@
-import './App.css'
-import { useState, useEffect, useReducer, useRef } from 'react'
+import './App.css';
+import { useState, useEffect, useReducer, useRef } from 'react';
+
+function useInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  return [
+    {value, onChange: e => setValue(e.target.value)},
+    () => setValue(initialValue)
+  ];
+}
 
 function App() {
   const [emotion, setEmotion] = useState('happy')
@@ -14,16 +22,25 @@ function App() {
 
   const [checked, setChecked] = useReducer(checked => !checked, false)
 
-  const txtTitle = useRef();
-  const hexColor = useRef();
+  const txtTitulo = useRef();
+  const hexCor = useRef();
 
+  const enviar = (e) => {
+  e.preventDefault();
+  const titulo = txtTitulo.current.value;
+  const cor = hexCor.current.value
+  alert(`${titulo}, ${cor}`);
+  txtTitulo.current.value = "";
+  hexCor.current.value = "";
+  };
+
+  const [titleProps, resetTitle] = useInput("");
+  const [colorProps, resetColor] = useInput("#000000");
   const submit = (e) => {
-    e.preventDefault();
-    const title = txtTitle.current.value;
-    const color = hexColor.current.value
-    alert(`${title}, ${color}`);
-    txtTitle.current.value = "";
-    hexColor.current.value = "";
+  e.preventDefault();
+  alert(`${titleProps.value}, ${colorProps.value}`);
+  resetTitle();
+  resetColor();
   };
 
   return (
@@ -43,13 +60,28 @@ function App() {
       <br></br>
       <br></br>
 
-      <form onSubmit={submit}>
-        <input ref={txtTitle} type="text" placeholder='color title...' />
-        <input ref={hexColor} type="color" />
+      <form onSubmit={enviar}>
+        <input ref={txtTitulo} type="text" placeholder='color title...' />
+        <input ref={hexCor} type="color" />
         <button>ADD</button>
       </form>
+
+      <br></br>
+
+      <form onSubmit={submit}>
+      <input
+        {...titleProps}
+        type="text"
+        placeholder="color title..."
+      />
+      <input
+        {...colorProps}
+        type="color"
+      />
+      <button>ADD</button>
+    </form>
     </div>
-  )
+  );
 }
 
 export default App
