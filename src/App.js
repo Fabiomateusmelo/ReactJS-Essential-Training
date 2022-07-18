@@ -1,6 +1,30 @@
 import './App.css';
 import { useState, useEffect, useReducer, useRef } from 'react';
 
+function Home() {
+  return (
+    <div>
+      <h1>My Website</h1>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div>
+      <h1>About Us</h1>
+    </div>
+  );
+}
+
+function Contact() {
+  return (
+    <div>
+      <h1>Contact Us</h1>
+    </div>
+  );
+}
+
 function useInput(initialValue) {
   const [value, setValue] = useState(initialValue);
   return [
@@ -115,6 +139,10 @@ function App() {
     name={data.name} 
     location={data.location}
     avatar={data.avatar_url}/>
+
+    <Home 
+    
+    />
     </div>
   );
 }
