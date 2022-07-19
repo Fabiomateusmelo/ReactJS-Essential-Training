@@ -1,36 +1,60 @@
-import './App.css';
-import { useState, useEffect, useReducer, useRef } from 'react';
+import './App.css'
+import { useState, useEffect, useReducer, useRef } from 'react'
+import { Link, Outlet } from 'react-router-dom'
 
 function Home() {
   return (
     <div>
+      <nav>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+      </nav>
       <h1>My Website</h1>
     </div>
   );
 }
 
-function About() {
+export function About() {
   return (
     <div>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+      </nav>
       <h1>About Us</h1>
+      <Outlet />
     </div>
   );
 }
 
-function Contact() {
+export function History() {
   return (
     <div>
+      <h1>Our History</h1>
+    </div>
+  );
+}
+
+export function Contact() {
+  return (
+    <div>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+      </nav>
       <h1>Contact Us</h1>
     </div>
   );
 }
 
 function useInput(initialValue) {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(initialValue)
   return [
-    {value, onChange: e => setValue(e.target.value)},
+    { value, onChange: e => setValue(e.target.value) },
     () => setValue(initialValue)
-  ];
+  ]
 }
 
 function GithubUser({ name, location, avatar }) {
@@ -40,10 +64,10 @@ function GithubUser({ name, location, avatar }) {
       <p>{location}</p>
       <img src={avatar} height={150} alt={name} />
     </div>
-  );
+  )
 }
 
-function App() {
+export function App() {
   const [emotion, setEmotion] = useState('happy')
   const [secondary, setSecondary] = useState('tired')
 
@@ -56,46 +80,43 @@ function App() {
 
   const [checked, setChecked] = useReducer(checked => !checked, false)
 
-  const txtTitulo = useRef();
-  const hexCor = useRef();
+  const txtTitulo = useRef()
+  const hexCor = useRef()
 
-  const enviar = (e) => {
-  e.preventDefault();
-  const titulo = txtTitulo.current.value;
-  const cor = hexCor.current.value
-  alert(`${titulo}, ${cor}`);
-  txtTitulo.current.value = "";
-  hexCor.current.value = "";
-  };
+  const enviar = e => {
+    e.preventDefault()
+    const titulo = txtTitulo.current.value
+    const cor = hexCor.current.value
+    alert(`${titulo}, ${cor}`)
+    txtTitulo.current.value = ''
+    hexCor.current.value = ''
+  }
 
-  const [titleProps, resetTitle] = useInput("");
-  const [colorProps, resetColor] = useInput("#000000");
-  const submit = (e) => {
-  e.preventDefault();
-  alert(`${titleProps.value}, ${colorProps.value}`);
-  resetTitle();
-  resetColor();
-  };
+  const [titleProps, resetTitle] = useInput('')
+  const [colorProps, resetColor] = useInput('#000000')
+  const submit = e => {
+    e.preventDefault()
+    alert(`${titleProps.value}, ${colorProps.value}`)
+    resetTitle()
+    resetColor()
+  }
 
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-
-  useEffect(() =>{
-    setLoading(true);
-    fetch(
-      `https://api.github.com/users/Fabiomateusmelo`
-      )
-      .then((response) => response.json())
+  useEffect(() => {
+    setLoading(true)
+    fetch(`https://api.github.com/users/Fabiomateusmelo`)
+      .then(response => response.json())
       .then(setData)
       .then(() => setLoading(false))
-      .catch(setError);
-  }, []);
+      .catch(setError)
+  }, [])
 
-  if(loading) return <h1>Loading...</h1>;
-  if(error) return <pre>{JSON.stringify(error)}</pre>;
-  if(!data) return null;
+  if (loading) return <h1>Loading...</h1>
+  if (error) return <pre>{JSON.stringify(error)}</pre>
+  if (!data) return null
 
   return (
     <div className="App">
@@ -115,7 +136,7 @@ function App() {
       <br></br>
 
       <form onSubmit={enviar}>
-        <input ref={txtTitulo} type="text" placeholder='color title...' />
+        <input ref={txtTitulo} type="text" placeholder="color title..." />
         <input ref={hexCor} type="color" />
         <button>ADD</button>
       </form>
@@ -123,28 +144,20 @@ function App() {
       <br></br>
 
       <form onSubmit={submit}>
-      <input
-        {...titleProps}
-        type="text"
-        placeholder="color title..."
-      />
-      <input
-        {...colorProps}
-        type="color"
-      />
-      <button>ADD</button>
-    </form>
+        <input {...titleProps} type="text" placeholder="color title..." />
+        <input {...colorProps} type="color" />
+        <button>ADD</button>
+      </form>
 
-    <GithubUser 
-    name={data.name} 
-    location={data.location}
-    avatar={data.avatar_url}/>
+      <GithubUser
+        name={data.name}
+        location={data.location}
+        avatar={data.avatar_url}
+      />
 
-    <Home 
-    
-    />
+      <Home />
     </div>
-  );
+  )
 }
 
 export default App
